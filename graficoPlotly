@@ -1,0 +1,46 @@
+<head>
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<div id="tester" ></div>
+
+<script>
+function makeplot() {
+ Plotly.d3.csv("https://raw.githubusercontent.com/pbfxx/repositorioInicial/master/prueba3d.csv", function(data){ processData(data) } );
+};
+
+function processData(allRows) {
+
+  var x = [], y = [], rr=[];
+  for (var i=0; i<allRows.length; i++) {
+    row = allRows[i];
+    x.push( row['Fecha'] );
+    y.push( row['Magnitud'] );
+    rr.push( row['Error']);
+  
+  }
+  
+  makePlotly( x, y,rr);
+}
+
+function makePlotly( x, y,rr){
+  console.log( 'X',x, 'Y',y, 'Error',rr);
+  var trazo= {
+    x: x,
+    y: y,
+    error_y: {type:'data',array: rr, visible: true,color: '#C8A2C8'},
+    mode:'markers',
+    //type:'scatter'
+    };
+  
+  var datas= [trazo];
+  var layout={
+    yaxis:{range:[15,11.55]},
+    xaxis:{autorange:true},
+    title:"SN2023ixf - M101",
+  };
+  Plotly.newPlot('tester',datas,layout);
+};
+
+  makeplot();
+</script>
